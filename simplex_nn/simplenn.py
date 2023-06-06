@@ -153,12 +153,7 @@ class MLP:
         return str(self.nn)
 
 
-# code to test run the neural network
-x = [[0.2, 0.4, 0.6], [0.3, 0.5, 0.7], [0.4, 0.8, 0.2], [0.11, 0.13, 0.9]]
-y = [0.2, 0.1, 0.2, 0.1]
-
-
-def train(x, y):
+def train(x, y, learning_rate, iterations):
     losses = []
 
     # define a Multi Layer Perceptron with above inputs, 2 hidden layers of 6 neurons each and 1 output layer
@@ -167,8 +162,6 @@ def train(x, y):
     # create a MLP structure and initialise the neurons
     m.construct()
 
-    iterations = 10000
-    learning_rate = 0.0001
     for i in range(len(x)):
         for _ in range(iterations):
             # reset all gradients before running a feed-forward
@@ -183,16 +176,21 @@ def train(x, y):
                 break
 
         # display the output ( this only works for this example with 1 output)
-        print(m.nn[-1][0].out)
+        print("Output at the end of the iteration : %f" % m.nn[-1][0].out)
     return m
 
 
 def infer(model, input):
     model.forward(input)
-    print("Output is: %f" % model.nn[-1][0].out)
+    print("Infrence output is: %f" % model.nn[-1][0].out)
 
 
-model = train(x, y)
-
-input = [[0.2, 0.8, 0.4]]
-infer(model, input)
+if __name__ == "__main__":
+    # code to test run the neural network
+    learning_rate = 0.0001
+    iterations = 10000
+    x = [[0.2, 0.4, 0.6], [0.3, 0.5, 0.7], [0.4, 0.8, 0.2], [0.11, 0.13, 0.9]]
+    y = [0.2, 0.1, 0.2, 0.1]
+    model = train(x, y)
+    input = [[0.2, 0.8, 0.4]]
+    infer(model, input)
